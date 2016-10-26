@@ -681,16 +681,15 @@ namespace GUI
         //
 
         //Statistikmetod
-        private void btnStatRevenue_Click(object sender, EventArgs e)
+        private void btnStatRevenuePerCourse_Click(object sender, EventArgs e)
         {
             ClearAllMessages(); ;
             try
             {
-                chart1.DataSource = StatisticExecuter("usp_StatParticipant");
-                chart1.Series["Series1"].XValueMember = "name";
-                chart1.Series["Series1"].YValueMembers = "Antal";
-                //chart1.Series["Series1"].ChartArea = "";
-                chart1.DataBind();
+                datastatisticchart.DataSource = StatisticExecuter("usp_StatRevenuePerCourse");
+                datastatisticchart.Series["Series1"].XValueMember = "name";
+                datastatisticchart.Series["Series1"].YValueMembers = "Revenue";
+                datastatisticchart.DataBind();
             }
             catch (Exception ex)
             {
@@ -698,12 +697,15 @@ namespace GUI
             }
         }
 
-        private void btnRevenuePerUser_Click(object sender, EventArgs e)
+        private void btnStatThroughPut_Click(object sender, EventArgs e)
         {
             ClearAllMessages(); ;
             try
             {
-
+                datastatisticchart.DataSource = StatisticExecuter("usp_StatCourseThroughPut");
+                datastatisticchart.Series["Series1"].XValueMember = "name";
+                datastatisticchart.Series["Series1"].YValueMembers = "Percent";
+                datastatisticchart.DataBind();
             }
             catch (Exception ex)
             {
@@ -711,12 +713,31 @@ namespace GUI
             }
         }
 
-        private void btnCityStat_Click(object sender, EventArgs e)
+        private void btnStatHighPass_Click(object sender, EventArgs e)
         {
             ClearAllMessages(); ;
             try
             {
+                datastatisticchart.DataSource = StatisticExecuter("usp_StatHighPass");
+                datastatisticchart.Series["Series1"].XValueMember = "name";
+                datastatisticchart.Series["Series1"].YValueMembers = "Percent";
+                datastatisticchart.DataBind();
+            }
+            catch (Exception ex)
+            {
+                txtMessage.Text = HandleExceptions(ex);
+            }
+        }
 
+        private void btmStatCourseFail_Click(object sender, EventArgs e)
+        {
+            ClearAllMessages(); ;
+            try
+            {
+                datastatisticchart.DataSource = StatisticExecuter("usp_StatCourseFail");
+                datastatisticchart.Series["Series1"].XValueMember = "name";
+                datastatisticchart.Series["Series1"].YValueMembers = "Percent";
+                datastatisticchart.DataBind();
             }
             catch (Exception ex)
             {
@@ -727,6 +748,11 @@ namespace GUI
         private void button1_Click(object sender, EventArgs e)
         {
             Console.WriteLine("TESTING: " + lastPre.coId + " " + lastPre.prereqCoId);
+        }
+
+        private void btnStatGradeDate_Click(object sender, EventArgs e)
+        {
+            dgvStats.DataSource = StatisticExecuter("usp_FindFinishedStudents");
         }
     }
 }
