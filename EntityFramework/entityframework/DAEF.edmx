@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DanceAcademyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attended">
+          <Key>
+            <PropertyRef Name="adId" />
+          </Key>
+          <Property Name="adId" Type="numeric" Precision="19" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="grade" Type="varchar" MaxLength="3" />
+          <Property Name="course_coId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Attending">
+          <Key>
+            <PropertyRef Name="agId" />
+          </Key>
+          <Property Name="agId" Type="numeric" Precision="19" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paid" Type="varchar" MaxLength="12" />
+          <Property Name="course_coId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="coId" />
+          </Key>
+          <Property Name="coId" Type="numeric" Precision="19" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="inactive" Type="varchar" MaxLength="50" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="cuId" />
+          </Key>
+          <Property Name="cuId" Type="numeric" Precision="19" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="mail" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="phonenr" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="pnr" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DanceAcademy.dbo.FinishedStudents' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FinishedStudents">
+          <Key>
+            <PropertyRef Name="course_coId" />
+            <PropertyRef Name="customer_cuId" />
+            <PropertyRef Name="grade" />
+            <PropertyRef Name="finished_date" />
+          </Key>
+          <Property Name="course_coId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="grade" Type="nvarchar" MaxLength="3" Nullable="false" />
+          <Property Name="finished_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PrerequisiteCourse">
+          <Key>
+            <PropertyRef Name="coId" />
+            <PropertyRef Name="prereqCoId" />
+          </Key>
+          <Property Name="coId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="prereqCoId" Type="numeric" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="date" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_172t9iwqpo4v0yx3iqgwy3ive">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attended" Type="Self.Attended" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="Attended">
+              <PropertyRef Name="course_coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_gcgkkrctkcr5ofl314dudeobe">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attending" Type="Self.Attending" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="cuId" />
+            </Principal>
+            <Dependent Role="Attending">
+              <PropertyRef Name="customer_cuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mlhwrmjmpabrr530p1qxlp7a5">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attending" Type="Self.Attending" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="Attending">
+              <PropertyRef Name="course_coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PrereqCourseCoId">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PrerequisiteCourse" Type="Self.PrerequisiteCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="PrerequisiteCourse">
+              <PropertyRef Name="coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PrereqCoursePreReqCoId">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="PrerequisiteCourse" Type="Self.PrerequisiteCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="PrerequisiteCourse">
+              <PropertyRef Name="prereqCoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rxqm9pc07f24p7kts57a0tkws">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attended" Type="Self.Attended" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="cuId" />
+            </Principal>
+            <Dependent Role="Attended">
+              <PropertyRef Name="customer_cuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DanceAcademyModelStoreContainer">
+          <EntitySet Name="Attended" EntityType="Self.Attended" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Attending" EntityType="Self.Attending" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrerequisiteCourse" EntityType="Self.PrerequisiteCourse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FinishedStudents" EntityType="Self.FinishedStudents" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FinishedStudents].[course_coId] AS [course_coId], 
+    [FinishedStudents].[customer_cuId] AS [customer_cuId], 
+    [FinishedStudents].[grade] AS [grade], 
+    [FinishedStudents].[finished_date] AS [finished_date]
+    FROM [dbo].[FinishedStudents] AS [FinishedStudents]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_172t9iwqpo4v0yx3iqgwy3ive" Association="Self.FK_172t9iwqpo4v0yx3iqgwy3ive">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Attended" EntitySet="Attended" />
+          </AssociationSet>
+          <AssociationSet Name="FK_gcgkkrctkcr5ofl314dudeobe" Association="Self.FK_gcgkkrctkcr5ofl314dudeobe">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Attending" EntitySet="Attending" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mlhwrmjmpabrr530p1qxlp7a5" Association="Self.FK_mlhwrmjmpabrr530p1qxlp7a5">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Attending" EntitySet="Attending" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PrereqCourseCoId" Association="Self.fk_PrereqCourseCoId">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="PrerequisiteCourse" EntitySet="PrerequisiteCourse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PrereqCoursePreReqCoId" Association="Self.fk_PrereqCoursePreReqCoId">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="PrerequisiteCourse" EntitySet="PrerequisiteCourse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rxqm9pc07f24p7kts57a0tkws" Association="Self.FK_rxqm9pc07f24p7kts57a0tkws">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Attended" EntitySet="Attended" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DanceAcademyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attended">
+          <Key>
+            <PropertyRef Name="adId" />
+          </Key>
+          <Property Name="adId" Type="Decimal" Precision="19" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="grade" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="course_coId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_172t9iwqpo4v0yx3iqgwy3ive" FromRole="Attended" ToRole="Course" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_rxqm9pc07f24p7kts57a0tkws" FromRole="Attended" ToRole="Customer" />
+        </EntityType>
+        <EntityType Name="Attending">
+          <Key>
+            <PropertyRef Name="agId" />
+          </Key>
+          <Property Name="agId" Type="Decimal" Precision="19" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paid" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="course_coId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_gcgkkrctkcr5ofl314dudeobe" FromRole="Attending" ToRole="Customer" />
+          <NavigationProperty Name="Course" Relationship="Self.FK_mlhwrmjmpabrr530p1qxlp7a5" FromRole="Attending" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="Course">
+          <Key>
+            <PropertyRef Name="coId" />
+          </Key>
+          <Property Name="coId" Type="Decimal" Precision="19" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="inactive" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Attended" Relationship="Self.FK_172t9iwqpo4v0yx3iqgwy3ive" FromRole="Course" ToRole="Attended" />
+          <NavigationProperty Name="Attending" Relationship="Self.FK_mlhwrmjmpabrr530p1qxlp7a5" FromRole="Course" ToRole="Attending" />
+          <NavigationProperty Name="PrerequisiteCourse" Relationship="Self.fk_PrereqCourseCoId" FromRole="Course" ToRole="PrerequisiteCourse" />
+          <NavigationProperty Name="PrerequisiteCourse1" Relationship="Self.fk_PrereqCoursePreReqCoId" FromRole="Course" ToRole="PrerequisiteCourse" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="cuId" />
+          </Key>
+          <Property Name="cuId" Type="Decimal" Precision="19" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phonenr" Type="String" MaxLength="14" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pnr" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Attended" Relationship="Self.FK_rxqm9pc07f24p7kts57a0tkws" FromRole="Customer" ToRole="Attended" />
+          <NavigationProperty Name="Attending" Relationship="Self.FK_gcgkkrctkcr5ofl314dudeobe" FromRole="Customer" ToRole="Attending" />
+        </EntityType>
+        <EntityType Name="PrerequisiteCourse">
+          <Key>
+            <PropertyRef Name="coId" />
+            <PropertyRef Name="prereqCoId" />
+          </Key>
+          <Property Name="coId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="prereqCoId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Course" Relationship="Self.fk_PrereqCourseCoId" FromRole="PrerequisiteCourse" ToRole="Course" />
+          <NavigationProperty Name="Course1" Relationship="Self.fk_PrereqCoursePreReqCoId" FromRole="PrerequisiteCourse" ToRole="Course" />
+        </EntityType>
+        <EntityType Name="FinishedStudents">
+          <Key>
+            <PropertyRef Name="course_coId" />
+            <PropertyRef Name="customer_cuId" />
+            <PropertyRef Name="grade" />
+            <PropertyRef Name="finished_date" />
+          </Key>
+          <Property Name="course_coId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="customer_cuId" Type="Decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="grade" Type="String" MaxLength="3" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="finished_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_172t9iwqpo4v0yx3iqgwy3ive">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attended" Type="Self.Attended" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="Attended">
+              <PropertyRef Name="course_coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rxqm9pc07f24p7kts57a0tkws">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attended" Type="Self.Attended" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="cuId" />
+            </Principal>
+            <Dependent Role="Attended">
+              <PropertyRef Name="customer_cuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_gcgkkrctkcr5ofl314dudeobe">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attending" Type="Self.Attending" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="cuId" />
+            </Principal>
+            <Dependent Role="Attending">
+              <PropertyRef Name="customer_cuId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_mlhwrmjmpabrr530p1qxlp7a5">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attending" Type="Self.Attending" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="Attending">
+              <PropertyRef Name="course_coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PrereqCourseCoId">
+          <End Role="Course" Type="Self.Course" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PrerequisiteCourse" Type="Self.PrerequisiteCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="PrerequisiteCourse">
+              <PropertyRef Name="coId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PrereqCoursePreReqCoId">
+          <End Role="Course" Type="Self.Course" Multiplicity="1" />
+          <End Role="PrerequisiteCourse" Type="Self.PrerequisiteCourse" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Course">
+              <PropertyRef Name="coId" />
+            </Principal>
+            <Dependent Role="PrerequisiteCourse">
+              <PropertyRef Name="prereqCoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DAEF" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attended" EntityType="Self.Attended" />
+          <EntitySet Name="Attending" EntityType="Self.Attending" />
+          <EntitySet Name="Course" EntityType="Self.Course" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="PrerequisiteCourse" EntityType="Self.PrerequisiteCourse" />
+          <EntitySet Name="FinishedStudents" EntityType="Self.FinishedStudents" />
+          <AssociationSet Name="FK_172t9iwqpo4v0yx3iqgwy3ive" Association="Self.FK_172t9iwqpo4v0yx3iqgwy3ive">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Attended" EntitySet="Attended" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rxqm9pc07f24p7kts57a0tkws" Association="Self.FK_rxqm9pc07f24p7kts57a0tkws">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Attended" EntitySet="Attended" />
+          </AssociationSet>
+          <AssociationSet Name="FK_gcgkkrctkcr5ofl314dudeobe" Association="Self.FK_gcgkkrctkcr5ofl314dudeobe">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Attending" EntitySet="Attending" />
+          </AssociationSet>
+          <AssociationSet Name="FK_mlhwrmjmpabrr530p1qxlp7a5" Association="Self.FK_mlhwrmjmpabrr530p1qxlp7a5">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="Attending" EntitySet="Attending" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PrereqCourseCoId" Association="Self.fk_PrereqCourseCoId">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="PrerequisiteCourse" EntitySet="PrerequisiteCourse" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PrereqCoursePreReqCoId" Association="Self.fk_PrereqCoursePreReqCoId">
+            <End Role="Course" EntitySet="Course" />
+            <End Role="PrerequisiteCourse" EntitySet="PrerequisiteCourse" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DanceAcademyModelStoreContainer" CdmEntityContainer="DAEF">
+          <EntitySetMapping Name="Attended">
+            <EntityTypeMapping TypeName="DanceAcademyModel.Attended">
+              <MappingFragment StoreEntitySet="Attended">
+                <ScalarProperty Name="adId" ColumnName="adId" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="course_coId" ColumnName="course_coId" />
+                <ScalarProperty Name="customer_cuId" ColumnName="customer_cuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attending">
+            <EntityTypeMapping TypeName="DanceAcademyModel.Attending">
+              <MappingFragment StoreEntitySet="Attending">
+                <ScalarProperty Name="agId" ColumnName="agId" />
+                <ScalarProperty Name="paid" ColumnName="paid" />
+                <ScalarProperty Name="course_coId" ColumnName="course_coId" />
+                <ScalarProperty Name="customer_cuId" ColumnName="customer_cuId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Course">
+            <EntityTypeMapping TypeName="DanceAcademyModel.Course">
+              <MappingFragment StoreEntitySet="Course">
+                <ScalarProperty Name="coId" ColumnName="coId" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="inactive" ColumnName="inactive" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="DanceAcademyModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="cuId" ColumnName="cuId" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="mail" ColumnName="mail" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phonenr" ColumnName="phonenr" />
+                <ScalarProperty Name="pnr" ColumnName="pnr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrerequisiteCourse">
+            <EntityTypeMapping TypeName="DanceAcademyModel.PrerequisiteCourse">
+              <MappingFragment StoreEntitySet="PrerequisiteCourse">
+                <ScalarProperty Name="coId" ColumnName="coId" />
+                <ScalarProperty Name="prereqCoId" ColumnName="prereqCoId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FinishedStudents">
+            <EntityTypeMapping TypeName="DanceAcademyModel.FinishedStudents">
+              <MappingFragment StoreEntitySet="FinishedStudents">
+                <ScalarProperty Name="course_coId" ColumnName="course_coId" />
+                <ScalarProperty Name="customer_cuId" ColumnName="customer_cuId" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="finished_date" ColumnName="finished_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

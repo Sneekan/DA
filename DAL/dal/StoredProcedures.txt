@@ -1,0 +1,80 @@
+﻿
+CREATE PROC [dbo].[spFindAllCourses]
+AS
+BEGIN
+	SELECT * 
+	FROM Course
+END
+
+CREATE PROC usp_FindCustomer (@pnr AS VARCHAR(10))
+AS
+BEGIN
+	SELECT * 
+	FROM Customer
+	WHERE pnr = @pnr
+END
+
+CREATE TABLE PrerequisiteCourse 
+(
+coId numeric(19, 0) NOT NULL,
+prereqCoId numeric(19, 0) NOT NULL,
+PRIMARY KEY (coId, prereqCoId),
+CONSTRAINT fk_PrereqCourseCoId FOREIGN KEY (coId) REFERENCES Course(coId) ON DELETE CASCADE,
+CONSTRAINT fk_PrereqCoursePreReqCoId FOREIGN KEY (prereqCoId) REFERENCES Course(coId) ON DELETE CASCADE
+)
+
+ALTER FUNCTION [dbo].[uf_CheckPrereqCourse]
+(@customerId AS INT,@courseCode AS INT )
+RETURNS INT
+AS
+BEGIN
+	DECLARE @result AS INT
+	SET @result = 
+		(
+		SELECT p.coId
+		FROM Course c
+		JOIN PrerequisiteCourse p
+		ON c.coId = p.coId 
+		LEFT JOIN Attended a
+		ON p.prereqCoId = a.course_coId 
+		WHERE a.customer_cuId = @customerId
+		AND p.coId = @courseCode
+		UNION
+		SELECT c.coId
+		FROM Course c
+		LEFT JOIN PrerequisiteCourse p
+		ON c.coId = p.coId
+		WHERE p.coId IS NULL
+		AND c.coId = @courseCode
+		)
+	IF @result IS NULL
+	SET @result = 0
+	ELSE IF @result > 0
+	SET @result = 1
+	RETURN @result
+END
+
+
+ALTER TABLE Attending 
+ADD CONSTRAINT Attending_CK CHECK(dbo.uf_CheckPrereqCourse( [customer_cuId],[course_coId])  = 1)
+
+CREATE TRIGGER utr_AfterAttendedInsert
+ON ATTENDED
+AFTER INSERT
+AS
+BEGIN
+	BEGIN TRY
+	DECLARE @courseId AS INT
+	DECLARE @customerId AS INT
+	SET @courseId =
+		(SELECT i.course_coId
+		FROM INSERTED I)
+	SET @customerId =
+		(SELECT i.customer_cuId
+		FROM INSERTED I)	
+	INSERT INTO dbo.FinishedStudents([course_coId],[customer_cuId]) VALUES (@courseId, @customerId)
+	END TRY
+	BEGIN CATCH
+	EXEC usp_GetErrorInfo
+	END CATCH
+END

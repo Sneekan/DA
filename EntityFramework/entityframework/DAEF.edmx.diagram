@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d1bde849c861478287100fcaf4291713" Name="Diagram1">
+        <EntityTypeShape EntityType="DanceAcademyModel.Attended" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DanceAcademyModel.Attending" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="DanceAcademyModel.Course" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DanceAcademyModel.Customer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DanceAcademyModel.PrerequisiteCourse" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DanceAcademyModel.FinishedStudents" Width="1.5" PointX="5.75" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="DanceAcademyModel.FK_172t9iwqpo4v0yx3iqgwy3ive" ManuallyRouted="false" />
+        <AssociationConnector Association="DanceAcademyModel.FK_rxqm9pc07f24p7kts57a0tkws" ManuallyRouted="false" />
+        <AssociationConnector Association="DanceAcademyModel.FK_gcgkkrctkcr5ofl314dudeobe" ManuallyRouted="false" />
+        <AssociationConnector Association="DanceAcademyModel.FK_mlhwrmjmpabrr530p1qxlp7a5" ManuallyRouted="false" />
+        <AssociationConnector Association="DanceAcademyModel.fk_PrereqCourseCoId" ManuallyRouted="false" />
+        <AssociationConnector Association="DanceAcademyModel.fk_PrereqCoursePreReqCoId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
