@@ -19,9 +19,9 @@ namespace DAL
                 a.course_coId = Decimal.ToInt32(r.GetDecimal(2));
                 a.customer_cuId = Decimal.ToInt32(r.GetDecimal(3));
             }
-            catch (SqlException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                throw ex;
             }
             return a;
         }

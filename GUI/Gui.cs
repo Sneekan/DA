@@ -507,7 +507,6 @@ namespace GUI
             try
             {
                 List<Attending> agList = null;
-                Console.WriteLine("LastCust finns? = " + lastCust.pnr + "!");
                 if (lastCust.pnr != "new")
                 {
                     string[] stringarr = { lastCust.cuId.ToString() };
@@ -548,7 +547,6 @@ namespace GUI
             try
             {
                 List<Attending> agList = null;
-                Console.WriteLine("LastCour finns? = " + lastCour.code + "!");
                 if (lastCour.code != "new")
                 {
                     string[] stringarr = { lastCour.coId.ToString() };
@@ -604,11 +602,6 @@ namespace GUI
         public void ClearAllMessages()
         {
             txtMessage.Text = "";
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
         }
 
         public void ClearCustFields()
@@ -680,7 +673,6 @@ namespace GUI
         //STATISTICS
         //
 
-        //Statistikmetod
         private void btnStatRevenuePerCourse_Click(object sender, EventArgs e)
         {
             ClearAllMessages(); ;
@@ -744,12 +736,6 @@ namespace GUI
                 txtMessage.Text = HandleExceptions(ex);
             }
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Console.WriteLine("TESTING: " + lastPre.coId + " " + lastPre.prereqCoId);
-        }
-
         private void btnStatGradeDate_Click(object sender, EventArgs e)
         {
             dgvStats.DataSource = StatisticExecuter("usp_FindFinishedStudents");

@@ -20,10 +20,11 @@ namespace DAL
                 pc.coId = Decimal.ToInt32(r.GetDecimal(0));
                 pc.prereqCoId = Decimal.ToInt32(r.GetDecimal(1));
             }
-            catch (SqlException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                throw ex;
             }
+
             return pc;
         }
 

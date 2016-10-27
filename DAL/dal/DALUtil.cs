@@ -14,15 +14,15 @@ namespace DAL
 
         public static SqlConnection Connect()
         {
-            string connsting = SqlString.connectionString;
+            string connsting = SqlString.joels2;
             SqlConnection conn = new SqlConnection(connsting);
             try
             {
                 conn.Open();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                throw ex;
             }
             return conn;
         }
@@ -50,7 +50,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw ex;                
+                throw ex;
             }
             finally
             {
@@ -75,7 +75,7 @@ namespace DAL
                 mySqlCommand.Connection = conn;
                 i = mySqlCommand.ExecuteNonQuery();
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -92,49 +92,60 @@ namespace DAL
             DataTable table = new DataTable();
             string[] headers = new string[0];
             int columns = 3;
-            Temp t1 = default(Temp);
-            if (list.Count() != 0)
+
+            try
             {
-                try
+                Temp t1 = default(Temp);
+                if (list.Count() != 0)
                 {
+
                     //Hämta header
                     columns = InputMethod(t1, ref headers).Length; //längden på listan
-                }
-                catch (SqlException e)
-                {
-                    Console.WriteLine(e.ToString());
-                }
-                for (int i = 0; i < columns; i++)
-                {
-                    table.Columns.Add(headers[i]);
-                }
-                foreach (Temp t2 in list)
-                {
-                    //Hämta en rad i tablen
-                    string[] stringlist = InputMethod(t2, ref headers);
-                    table.Rows.Add(stringlist);
-                }
-            }
-            else
-            {
-                InputMethod(t1, ref headers);
-                for (int i = 0; i < headers.Length; i++)
-                    table.Columns.Add(headers[i]);
-            }
 
+
+                    for (int i = 0; i < columns; i++)
+                    {
+                        table.Columns.Add(headers[i]);
+                    }
+                    foreach (Temp t2 in list)
+                    {
+                        //Hämta en rad i tablen
+                        string[] stringlist = InputMethod(t2, ref headers);
+                        table.Rows.Add(stringlist);
+                    }
+                }
+                else
+                {
+                    InputMethod(t1, ref headers);
+                    for (int i = 0; i < headers.Length; i++)
+                        table.Columns.Add(headers[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             return table;
         }
 
         public static DataTable StatisticExecuter(string usp)
         {
             DataTable table = new DataTable();
-            using (var con = Connect())
-            using (var cmd = new SqlCommand(usp, con))
-            using (var da = new SqlDataAdapter(cmd))
-            {                    
-                da.Fill(table);
+            try
+            {
+                using (var con = Connect())
+                using (var cmd = new SqlCommand(usp, con))
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(table);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
             return table;
+
         }
 
     }

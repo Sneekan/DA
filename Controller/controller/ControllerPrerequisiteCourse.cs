@@ -36,6 +36,5 @@ namespace Controller
             SqlCommand cmd = DALPrerequisiteCourse.FindPrerequisiteCourseCommand(s);
             return cmd;
         }
-
     }
 }

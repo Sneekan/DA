@@ -20,10 +20,11 @@ namespace DAL
                 c.name = r.GetString(3);
                 c.price = r.GetInt32(4);
             }
-            catch (SqlException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                throw ex;
             }
+
             return c;
         }
 

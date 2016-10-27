@@ -13,7 +13,5 @@ namespace DAL
         public static string joel = "Data Source=JOELTVA2\\JOELSDATABAS;Initial Catalog=DanceAcademy;User ID=sa;Password=123;";
         public static string joels2 = "Data Source=DESKTOP-THBJUU3\\SQLEXPRESS;Initial Catalog=DanceAcademy;User ID=sa;Password=hej123;";
 
-
-        ///BLACLAÖGKAwdjasgjasdkaehrfag
     }
 }

@@ -60,6 +60,6 @@ namespace Controller
             string[] stringlist = DALAttended.TableCourAd(a, ref headers);
             return stringlist;
         }
-       
+
     }
 }

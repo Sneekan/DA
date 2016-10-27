@@ -21,9 +21,9 @@ namespace DAL
                 c.phonenr = r.GetString(4);
                 c.pnr = r.GetString(5);
             }
-            catch (SqlException e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                throw ex;
             }
             return c;
         }

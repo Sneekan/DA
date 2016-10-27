@@ -23,10 +23,10 @@ namespace Controller
 
         public static int CreateUpdateDeleteAnything<Temp>(Temp t, Func<Temp, SqlCommand> inputMethod)
         {
-     
-                int i = DALUtil.CreateUpdateDeleteAnything(t, inputMethod);
-                return i;    
-        
+
+            int i = DALUtil.CreateUpdateDeleteAnything(t, inputMethod);
+            return i;
+
         }
 
         public static DataTable ListToTable<Temp>(List<Temp> list, DAL.DALUtil.Delegate1<Temp> InputMethod)
