@@ -116,7 +116,6 @@ namespace GUI
                 {
                     ClearAllMessages();
                     string code = cbCourSearch.SelectedItem.ToString().Split(' ')[0];
-                    //code = code.Substring(0, 8);
                     string[] stringarr = new string[] { code };
                     List<Course> courlist = FindAnything(stringarr, FindCourseByCodeCommand, FindCourse);
 
@@ -136,11 +135,6 @@ namespace GUI
                             cbCourPreReq.SelectedItem = prereqlist.First().code + " - " + prereqlist.First().name;                       
                         else
                             cbCourPreReq.SelectedItem = "Ingen";
-                    }
-                    else
-                    {
-                        ClearCourFields();
-                        txtMessage.Text = "FATAL ERROR!";
                     }
                     cbCourSearch.SelectedIndex = -1;
 
@@ -237,7 +231,6 @@ namespace GUI
                     }
                     else
                     {
-                        Console.WriteLine(lastPre.coId + " " + lastPre.prereqCoId + "TEST");
                         CreateUpdateDeleteAnything(lastPre, DeletePrerequisiteCourse);
                         lastPre = new PrerequisiteCourse(0, 0);
                     }
@@ -262,12 +255,10 @@ namespace GUI
                 {
                     ClearAllMessages();
                     string code = cbAgCour.SelectedItem.ToString().Split(' ')[0];
-                    //code = code.Substring(0, 8);
                     string[] stringarr = new string[] { code };
                     List<Course> courlist = FindAnything(stringarr, FindCourseByCodeCommand, FindCourse);
                     decimal coID = courlist.First().coId;
                     Attending a = new Attending(lastCust.cuId, coID, "");
-                    Console.WriteLine(lastCust.cuId + " " + lastCour.coId + " " + "");
                     CreateUpdateDeleteAnything(a, CreateAttending);
                     UpdateCustTable();
                     UpdateCourTable();
@@ -409,7 +400,6 @@ namespace GUI
             try
             {
                 lastCust = custlist.First();
-                Console.WriteLine("lastCust is set");
                 txtCustMail.Text = lastCust.mail;
                 txtCustPhone.Text = lastCust.phonenr;
                 txtCustAddress.Text = lastCust.address;
@@ -436,7 +426,6 @@ namespace GUI
             {
                 CourseIndex = cbCourSearch.SelectedIndex;
                 lastCour = courlist.First();
-                Console.WriteLine("lastCour is set");
                 txtCourCode.Text = lastCour.code;
                 txtCourName.Text = lastCour.name;
                 txtCourPrice.Text = lastCour.price.ToString();

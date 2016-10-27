@@ -64,6 +64,7 @@ namespace GUI
             this.btnCourClear = new System.Windows.Forms.Button();
             this.rbCourInactive = new System.Windows.Forms.RadioButton();
             this.rbCourActive = new System.Windows.Forms.RadioButton();
+            this.txtCourPrice = new Model.NumericTextBox();
             this.txtCourName = new System.Windows.Forms.TextBox();
             this.txtCourCode = new System.Windows.Forms.TextBox();
             this.lblCourStatus = new System.Windows.Forms.Label();
@@ -108,7 +109,6 @@ namespace GUI
             this.btnStatThroughPut = new System.Windows.Forms.Button();
             this.btnStatRevenuePerCourse = new System.Windows.Forms.Button();
             this.datastatisticchart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.txtCourPrice = new Model.NumericTextBox();
             this.panelCustomer.SuspendLayout();
             this.panelCourse.SuspendLayout();
             this.panelCustomerCourse.SuspendLayout();
@@ -439,6 +439,15 @@ namespace GUI
             this.rbCourActive.TabIndex = 26;
             this.rbCourActive.Text = "Active";
             this.rbCourActive.UseVisualStyleBackColor = true;
+            // 
+            // txtCourPrice
+            // 
+            this.txtCourPrice.AllowSpace = false;
+            this.txtCourPrice.Location = new System.Drawing.Point(102, 175);
+            this.txtCourPrice.Margin = new System.Windows.Forms.Padding(1);
+            this.txtCourPrice.Name = "txtCourPrice";
+            this.txtCourPrice.Size = new System.Drawing.Size(426, 20);
+            this.txtCourPrice.TabIndex = 23;
             // 
             // txtCourName
             // 
@@ -906,7 +915,7 @@ namespace GUI
             this.dgvStats.Name = "dgvStats";
             this.dgvStats.ReadOnly = true;
             this.dgvStats.RowHeadersVisible = false;
-            this.dgvStats.Size = new System.Drawing.Size(706, 223);
+            this.dgvStats.Size = new System.Drawing.Size(706, 219);
             this.dgvStats.TabIndex = 30;
             // 
             // btnStatCourseFail
@@ -983,20 +992,11 @@ namespace GUI
             this.datastatisticchart.TabIndex = 0;
             this.datastatisticchart.Text = "chart1";
             // 
-            // txtCourPrice
-            // 
-            this.txtCourPrice.AllowSpace = false;
-            this.txtCourPrice.Location = new System.Drawing.Point(102, 175);
-            this.txtCourPrice.Margin = new System.Windows.Forms.Padding(1);
-            this.txtCourPrice.Name = "txtCourPrice";
-            this.txtCourPrice.Size = new System.Drawing.Size(426, 20);
-            this.txtCourPrice.TabIndex = 23;
-            // 
             // Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1309, 761);
+            this.ClientSize = new System.Drawing.Size(1276, 761);
             this.Controls.Add(this.tabctrDanceAcadamy);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);

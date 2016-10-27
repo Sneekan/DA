@@ -14,7 +14,7 @@ namespace DAL
 
         public static SqlConnection Connect()
         {
-            string connsting = SqlString.joels2;
+            string connsting = SqlString.joel;
             SqlConnection conn = new SqlConnection(connsting);
             try
             {
@@ -41,7 +41,7 @@ namespace DAL
                 myReader = mySqlCommand.ExecuteReader();
                 while (myReader.Read()) //Loopen
                 {
-                    if (myReader.GetValue(0) != DBNull.Value) //Kontrollen (optimal)
+                    if (myReader.GetValue(0) != DBNull.Value) 
                     {
                         Temp t = InputMethod(myReader);
                         resultlist.Add(t);
@@ -59,7 +59,6 @@ namespace DAL
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
             }
-            Console.WriteLine("DONE");
             return resultlist;
         }
 
@@ -98,9 +97,7 @@ namespace DAL
                 Temp t1 = default(Temp);
                 if (list.Count() != 0)
                 {
-
-                    //Hämta header
-                    columns = InputMethod(t1, ref headers).Length; //längden på listan
+                    columns = InputMethod(t1, ref headers).Length;
 
 
                     for (int i = 0; i < columns; i++)
@@ -109,7 +106,6 @@ namespace DAL
                     }
                     foreach (Temp t2 in list)
                     {
-                        //Hämta en rad i tablen
                         string[] stringlist = InputMethod(t2, ref headers);
                         table.Rows.Add(stringlist);
                     }
